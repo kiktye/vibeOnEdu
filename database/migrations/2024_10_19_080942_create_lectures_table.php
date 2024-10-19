@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('audio_path')->nullable();
-            $table->int('duration')->nullable();
+            $table->integer('duration')->nullable();
             $table->timestamps();
         });
     }
