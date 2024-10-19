@@ -45,7 +45,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [BadgeController::class, 'index'])->name('index');
         Route::get('{badge}', [BadgeController::class, 'show'])->name('show');
         Route::post('/', [BadgeController::class, 'store'])->name('store');
-
         Route::put('{badge}', [BadgeController::class, 'update'])->name('update');
         Route::delete('{badge}', [BadgeController::class, 'destroy'])->name('destroy');
     });
@@ -53,9 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('modules')->name('modules.')->group(function () {
         Route::get('/', [\App\Http\Controllers\ModuleController::class, 'index'])->name('index');
         Route::get('{module}', [\App\Http\Controllers\ModuleController::class, 'show'])->name('show');
-
         Route::post('/', [\App\Http\Controllers\ModuleController::class, 'store'])->name('store');
-
         Route::delete('{module}', [\App\Http\Controllers\ModuleController::class, 'destroy'])->name('destroy');
         Route::put('{modules}', [\App\Http\Controllers\ModuleController::class, 'update'])->name('update');
     });
@@ -69,14 +66,24 @@ Route::middleware('auth')->group(function () {
         Route::put('/lectures/{lecture}', 'update')->name('lectures.update');
         Route::delete('/lectures/{lecture}', 'destroy')->name('lectures.destroy');
     });
+
+    Route::controller(\App\Http\Controllers\MaterialController::class)->group(function () {
+        Route::get('/materials', 'index')->name('materials.index');
+        Route::get('/materials/create', 'create')->name('materials.create');
+        Route::post('/materials/create', 'store')->name('materials.store');
+        Route::get('/materials/{material}', 'show')->name('materials.show');
+        Route::get('/materials/{material}/edit', 'edit')->name('materials.edit');
+        Route::put('/materials/{material}', 'update')->name('materials.update');
+        Route::delete('/materials/{material}', 'destroy')->name('materials.destroy');
+    });
 });
 
-
-Route::get('/manage', function () {
-    return view('manage');
-})->name('manage');
-
-
-
-
 require __DIR__ . '/auth.php';
+
+
+
+    Route::get('/manage', function () {
+        return view('manage');
+    })->name('manage');
+
+
