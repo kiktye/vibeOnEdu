@@ -14,4 +14,9 @@ class Material extends Model
         "type",
         "content",
     ];
+
+    public function lecture()
+    {
+        return $this->belongsTo(Lecture::class);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Module;
 
 class CoursesController extends Controller
 {
@@ -12,18 +13,10 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        $courses = Course::with('modules')->get();
+        $courses = Course::with('module')->get();
         $modules = Module::all();
 
         return view('courses.index', ['courses' => $courses, 'modules' => $modules]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-    
     }
 
     /**
@@ -31,23 +24,19 @@ class CoursesController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'description' => 'required',
+            'module_id' => 'nullable|exists:modules,id',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        Course::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'module_id' => $validated['module_id']
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return redirect('courses')->with('success', 'Course created successfully!');
     }
 
     /**
@@ -55,7 +44,21 @@ class CoursesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'description' => 'required',
+            'module_id' => 'nullable|exists:modules,id',
+        ]);
+
+        $course = Course::findOrFail($id);
+
+        $course->name = $validated['name'];
+        $course->description = $validated['description'];
+        $course->module_id = $validated['module_id'];
+
+        $course->save();
+
+        return redirect()->route('courses.index')->with('success', 'Course updated successfully.');
     }
 
     /**
@@ -63,6 +66,9 @@ class CoursesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $course = Course::findOrFail($id);
+        $course->delete();
+
+        return redirect()->back()->with('success', 'Course deleted successfully.');
     }
 }

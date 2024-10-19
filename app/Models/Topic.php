@@ -15,5 +15,9 @@ class Topic extends Model
         'name',
     ];
 
-    protected $table = 'topics';
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_topics');
+    }
 }
