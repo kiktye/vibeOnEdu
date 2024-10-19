@@ -100,7 +100,7 @@
                 class="relative flex flex-col w-full h-full text-slate-700 bg-white shadow-md rounded-xl bg-clip-border">
                 <div class="relative mx-4 mt-4 overflow-hidden text-slate-700 bg-white rounded-none bg-clip-border">
                     <div class="flex flex-wrap items-center justify-between">
-                        <h3 class="text-lg font-semibold text-slate-800">Беџови</h3>
+                        <h3 class="text-lg font-semibold text-slate-800">Fun Facts</h3>
 
                         <!-- Modal toggle -->
                         <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
@@ -114,7 +114,7 @@
                                     clip-rule="evenodd" />
                             </svg>
 
-                            Додади беџ
+                            Додади лекција
                         </button>
 
                         <!-- Main modal -->
@@ -127,7 +127,7 @@
                                     <div
                                         class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                            Нов Беџ
+                                            Нова лекција
                                         </h3>
                                         <button type="button"
                                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -142,45 +142,53 @@
                                         </button>
                                     </div>
                                     <!-- Modal body -->
-                                    <form method="POST" action="{{ route('badges.store') }}"
+                                    <form method="POST" action="{{ route('funFacts.store') }}"
                                         enctype="multipart/form-data" class="p-4 md:p-5">
                                         @csrf
 
-                                        <div class="grid gap-4 mb-4 grid-cols-2">
+                                        <div class="container mx-auto p-4">
+                                            <h1 class="text-2xl font-bold mb-4">Create New Fun Fact</h1>
 
-                                            <div class="col-span-2">
-                                                <label for="name"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Слика</label>
+                                            <!-- Display Validation Errors -->
+                                            @if ($errors->any())
+                                                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+                                                    role="alert">
+                                                    <strong class="font-bold">Whoops!</strong> There were some problems
+                                                    with your input.
+                                                    <ul class="mt-2 list-disc pl-5">
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
 
-                                                <input type="file" name="image_path" id="image_path">
-                                            </div>
+                                            <!-- Form to Create a New funFact -->
+                                            <form action="{{ route('funFacts.store') }}" method="POST">
+                                                @csrf <!-- CSRF Token for security -->
 
-                                            <div class="col-span-2">
-                                                <label for="name"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Име</label>
-                                                <input type="text" name="name" id="name"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                    placeholder="Напиши го името на беџот" required="">
-                                            </div>
+                                                <!-- Course ID (Dropdown) -->
 
-                                            <div class="col-span-2">
-                                                <label for="description"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Опис</label>
-                                                <textarea id="description" name="description" rows="4"
-                                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="Напиши опис на беџ"></textarea>
-                                            </div>
+
+                                                <!-- funFact Name -->
+                                                <div class="mb-4">
+                                                    <label for="name"
+                                                        class="block text-gray-700 text-sm font-bold mb-2">Fun Fact
+                                                    </label>
+                                                    <input type="text" name="name" id="name"
+                                                        class="form-input block w-full mt-1"
+                                                        value="{{ old('name') }}" required>
+                                                </div>
+
+                                                <!-- Submit Button -->
+                                                <div class="flex items-center justify-between">
+                                                    <button type="submit"
+                                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                        Create Fun Fact
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <button type="submit"
-                                            class="text-white inline-flex items-center bg-gray-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                            Додади
-                                        </button>
 
                                     </form>
                                 </div>
@@ -194,18 +202,12 @@
                     <table class="w-full mt-4 text-left table-auto min-w-max">
                         <thead>
                             <tr>
+
                                 <th
                                     class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                                    <h1 class="capitalize font-medium text-sm">Слика</h1>
+                                    <h1 class="capitalize font-medium text-sm">Fun Fact</h1>
                                 </th>
-                                <th
-                                    class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                                    <h1 class="capitalize font-medium text-sm">Име на беџ</h1>
-                                </th>
-                                <th
-                                    class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                                    <h1 class="capitalize font-medium text-sm">Опис на беџ</h1>
-                                </th>
+
 
                                 <th
                                     class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
@@ -213,27 +215,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($badges as $badge)
+                            @foreach ($funFacts as $funFact)
                                 <tr class="border-b">
 
+
                                     <td class="p-4 border-b border-slate-200">
-                                        <img src=" {{ asset($badge->image_path) }} " alt="will upload later"
-                                            class="relative inline-block h-9 w-9 !rounded-full object-cover object-center" />
+                                        <p class="text-sm font-semibold text-slate-700">{{ $funFact->name }}</p>
                                     </td>
-                                    <td class="p-4 border-b border-slate-200">
-                                        <p class="text-sm font-semibold text-slate-700">{{ $badge->name }}</p>
-                                    </td>
-                                    <td class="p-4 border-b border-slate-200">
-                                        {{ Str::limit($badge->description, 60) }}
-                                    </td>
+
 
 
                                     <td class="p-4 border-b border-slate-200">
                                         <div class="flex items-center space-x-4">
 
                                             <!-- Modal toggle -->
-                                            <button data-modal-target="edit-modal-{{ $badge->id }}"
-                                                data-modal-toggle="edit-modal-{{ $badge->id }}"
+                                            <button data-modal-target="edit-modal-{{ $funFact->id }}"
+                                                data-modal-toggle="edit-modal-{{ $funFact->id }}"
                                                 class="flex items-center text-slate-900 transition-all hover:bg-slate-900/10 rounded-xl text-xs p-2"
                                                 type="button">
 
@@ -249,7 +246,7 @@
                                             </button>
 
                                             <!-- Main modal -->
-                                            <div id="edit-modal-{{ $badge->id }}" tabindex="-1"
+                                            <div id="edit-modal-{{ $funFact->id }}" tabindex="-1"
                                                 aria-hidden="true"
                                                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                                 <div class="relative p-4 w-full max-w-md max-h-full">
@@ -260,11 +257,11 @@
                                                             class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                                             <h3
                                                                 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                                Измени беџ {{ $badge->name }}
+                                                                Измени Fun Fact {{ $funFact->name }}
                                                             </h3>
                                                             <button type="button"
                                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                                data-modal-toggle="edit-modal-{{ $badge->id }}">
+                                                                data-modal-toggle="edit-modal-{{ $funFact->id }}">
                                                                 <svg class="w-3 h-3" aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                     viewBox="0 0 14 14">
@@ -276,45 +273,34 @@
                                                             </button>
                                                         </div>
                                                         <!-- Modal body -->
-                                                        <form method="POST"
-                                                            action="{{ route('badges.update', $badge->id) }}"
-                                                            enctype="multipart/form-data" class="p-4 md:p-5">
-                                                            @csrf
-                                                            @method('PUT')
+                                                        <!-- Form to Edit an Existing funFact -->
+                                                        <form class="container mx-auto p-4"
+                                                            action="{{ route('funFacts.update', $funFact->id) }}"
+                                                            method="POST">
+                                                            @csrf <!-- CSRF Token for security -->
+                                                            @method('PUT') <!-- Spoofing PUT method for updating -->
 
-                                                            <div class="grid gap-4 mb-4 grid-cols-2">
 
-                                                                <div class="col-span-2">
-                                                                    <label for="name"
-                                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Слика</label>
 
-                                                                    <input type="file" name="image_path"
-                                                                        id="image_path">
-                                                                </div>
-
-                                                                <div class="col-span-2">
-                                                                    <label for="name"
-                                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Име</label>
-                                                                    <input type="text" name="name"
-                                                                        id="name" value="{{ $badge->name }}"
-                                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                                        placeholder="Напиши го името на беџот"
-                                                                        required="">
-                                                                </div>
-
-                                                                <div class="col-span-2">
-                                                                    <label for="description"
-                                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Опис</label>
-                                                                    <textarea id="description" name="description" rows="4"
-                                                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                                        placeholder="Напиши опис на беџ">{{ old('description', $badge->description) }}</textarea>
-                                                                </div>
+                                                            <!-- funFact Name -->
+                                                            <div class="mb-4">
+                                                                <label for="name"
+                                                                    class="block text-gray-700 text-sm font-bold mb-2">Fun
+                                                                    Fact
+                                                                </label>
+                                                                <input type="text" name="name" id="name"
+                                                                    class="form-input block w-full mt-1"
+                                                                    value="{{ old('name', $funFact->name) }}"
+                                                                    required>
                                                             </div>
-                                                            <button type="submit"
-                                                                class="text-white inline-flex items-center bg-gray-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                                Измени
-                                                            </button>
 
+                                                            <!-- Submit Button -->
+                                                            <div class="flex items-center justify-between">
+                                                                <button type="submit"
+                                                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                                    Update Fun Fact
+                                                                </button>
+                                                            </div>
                                                         </form>
 
                                                     </div>
@@ -322,13 +308,13 @@
                                             </div>
 
                                             <form class="space-y-0" method="POST"
-                                                action="{{ route('badges.destroy', $badge->id) }}"
-                                                onsubmit="return confirm('Дали си сигурен дека сакаш да ja избришеш овoj Беџ?');">
+                                                action="{{ route('funFacts.destroy', $funFact->id) }}"
+                                                onsubmit="return confirm('Дали си сигурен дека сакаш да го избришеш овoj Fun Fact?');">
                                                 @method('DELETE')
                                                 @csrf
 
                                                 <button class="text-xs font-semibold border-b-2 border-red-600"
-                                                    type="submit">Избриши беџ</button>
+                                                    type="submit">Избриши Fun Fact</button>
                                             </form>
                                         </div>
                                     </td>

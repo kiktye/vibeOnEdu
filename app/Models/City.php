@@ -13,7 +13,7 @@ class City extends Model
         'name',
     ];
 
-    public function usersInfo()
+    public function userInfo()
     {
         return $this->hasMany(UserInfo::class);
     }

@@ -38,6 +38,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+
+        $user->load('badges', 'courses', 'evaluations', 'topics', 'lectures.course', 'userInfo.city',  'certificates.course', 'role');
         return view('users.show', ['user' => $user]);
     }
 

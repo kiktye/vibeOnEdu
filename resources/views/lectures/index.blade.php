@@ -100,9 +100,8 @@
             <div
                 class="relative flex flex-col w-full h-full text-slate-700 bg-white shadow-md rounded-xl bg-clip-border">
                 <div class="relative mx-4 mt-4 overflow-hidden text-slate-700 bg-white rounded-none bg-clip-border">
-
                     <div class="flex flex-wrap items-center justify-between">
-                        <h3 class="text-lg font-semibold text-slate-800">Беџови</h3>
+                        <h3 class="text-lg font-semibold text-slate-800">Лекции</h3>
 
                         <!-- Modal toggle -->
                         <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
@@ -144,65 +143,93 @@
                                         </button>
                                     </div>
                                     <!-- Modal body -->
-                                    <form action="{{ route('lectures.store') }}" method="POST">
+                                    <form method="POST" action="{{ route('lectures.store') }}"
+                                        enctype="multipart/form-data" class="p-4 md:p-5">
                                         @csrf
 
-                                        <!-- Course ID (Dropdown) -->
-                                        <div class="mb-4">
-                                            <label for="course_id"
-                                                class="block text-gray-700 text-sm font-bold mb-2">Course</label>
-                                            <select name="course_id" id="course_id"
-                                                class="form-select block w-full mt-1">
-                                                <option value="">-- Select Course --</option>
-                                                <!-- Assuming you pass the list of courses to this view -->
-                                                @foreach ($courses as $course)
-                                                    <option value="{{ $course->id }}">{{ $course->name }}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="container mx-auto p-4">
+                                            <h1 class="text-2xl font-bold mb-4">Create New Lecture</h1>
+
+                                            <!-- Display Validation Errors -->
+                                            @if ($errors->any())
+                                                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+                                                    role="alert">
+                                                    <strong class="font-bold">Whoops!</strong> There were some problems
+                                                    with your input.
+                                                    <ul class="mt-2 list-disc pl-5">
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+
+                                            <!-- Form to Create a New Lecture -->
+                                            <form action="{{ route('lectures.store') }}" method="POST">
+                                                @csrf <!-- CSRF Token for security -->
+
+                                                <!-- Course ID (Dropdown) -->
+                                                <div class="mb-4">
+                                                    <label for="course_id"
+                                                        class="block text-gray-700 text-sm font-bold mb-2">Course</label>
+                                                    <select name="course_id" id="course_id"
+                                                        class="form-select block w-full mt-1">
+                                                        <option value="">-- Select Course --</option>
+                                                        <!-- Assuming you pass the list of courses to this view -->
+                                                        @foreach ($courses as $course)
+                                                            <option value="{{ $course->id }}">{{ $course->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <!-- Lecture Name -->
+                                                <div class="mb-4">
+                                                    <label for="name"
+                                                        class="block text-gray-700 text-sm font-bold mb-2">Lecture
+                                                        Name</label>
+                                                    <input type="text" name="name" id="name"
+                                                        class="form-input block w-full mt-1"
+                                                        value="{{ old('name') }}" required>
+                                                </div>
+
+                                                <!-- Lecture Description -->
+                                                <div class="mb-4">
+                                                    <label for="description"
+                                                        class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                                                    <textarea name="description" id="description" rows="4" class="form-textarea block w-full mt-1" required>{{ old('description') }}</textarea>
+                                                </div>
+
+                                                <!-- Audio Path (Optional) -->
+                                                <div class="mb-4">
+                                                    <label for="audio_path"
+                                                        class="block text-gray-700 text-sm font-bold mb-2">Audio Path
+                                                        (Optional)</label>
+                                                    <input type="text" name="audio_path" id="audio_path"
+                                                        class="form-input block w-full mt-1"
+                                                        value="{{ old('audio_path') }}">
+                                                </div>
+
+                                                <!-- Duration (Optional) -->
+                                                <div class="mb-4">
+                                                    <label for="duration"
+                                                        class="block text-gray-700 text-sm font-bold mb-2">Duration (in
+                                                        minutes) (Optional)</label>
+                                                    <input type="number" name="duration" id="duration"
+                                                        class="form-input block w-full mt-1"
+                                                        value="{{ old('duration') }}">
+                                                </div>
+
+                                                <!-- Submit Button -->
+                                                <div class="flex items-center justify-between">
+                                                    <button type="submit"
+                                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                        Create Lecture
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
 
-                                        <!-- Lecture Name -->
-                                        <div class="mb-4">
-                                            <label for="name"
-                                                class="block text-gray-700 text-sm font-bold mb-2">Lecture
-                                                Name</label>
-                                            <input type="text" name="name" id="name"
-                                                class="form-input block w-full mt-1" value="{{ old('name') }}"
-                                                required>
-                                        </div>
-
-                                        <!-- Lecture Description -->
-                                        <div class="mb-4">
-                                            <label for="description"
-                                                class="block text-gray-700 text-sm font-bold mb-2">Description</label>
-                                            <textarea name="description" id="description" rows="4" class="form-textarea block w-full mt-1" required>{{ old('description') }}</textarea>
-                                        </div>
-
-                                        <!-- Audio Path (Optional) -->
-                                        <div class="mb-4">
-                                            <label for="audio_path"
-                                                class="block text-gray-700 text-sm font-bold mb-2">Audio Path
-                                                (Optional)</label>
-                                            <input type="text" name="audio_path" id="audio_path"
-                                                class="form-input block w-full mt-1" value="{{ old('audio_path') }}">
-                                        </div>
-
-                                        <!-- Duration (Optional) -->
-                                        <div class="mb-4">
-                                            <label for="duration"
-                                                class="block text-gray-700 text-sm font-bold mb-2">Duration (in
-                                                minutes) (Optional)</label>
-                                            <input type="number" name="duration" id="duration"
-                                                class="form-input block w-full mt-1" value="{{ old('duration') }}">
-                                        </div>
-
-                                        <!-- Submit Button -->
-                                        <div class="flex items-center justify-between">
-                                            <button type="submit"
-                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                                Create Lecture
-                                            </button>
-                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -210,7 +237,6 @@
 
                     </div>
                 </div>
-
 
                 <div class="overflow-x-auto">
                     <table class="w-full mt-4 text-left table-auto min-w-max">
@@ -247,11 +273,10 @@
                                         <p class="text-sm font-semibold text-slate-700">{{ $lecture->name }}</p>
                                     </td>
                                     <td class="p-4 border-b border-slate-200">
-                                        {{ $lecture->description }}
+                                        {{ Str::limit($lecture->description, 60) }}
                                     </td>
 
 
-                                    {{-- delete agenda button --}}
                                     <td class="p-4 border-b border-slate-200">
                                         <div class="flex items-center space-x-4">
 
@@ -284,7 +309,7 @@
                                                             class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                                             <h3
                                                                 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                                Измени беџ {{ $lecture->name }}
+                                                                Измени лекција {{ $lecture->name }}
                                                             </h3>
                                                             <button type="button"
                                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -300,45 +325,75 @@
                                                             </button>
                                                         </div>
                                                         <!-- Modal body -->
-                                                        <form method="POST"
+                                                        <!-- Form to Edit an Existing Lecture -->
+                                                        <form class="container mx-auto p-4"
                                                             action="{{ route('lectures.update', $lecture->id) }}"
-                                                            enctype="multipart/form-data" class="p-4 md:p-5">
-                                                            @csrf
-                                                            @method('PUT')
+                                                            method="POST">
+                                                            @csrf <!-- CSRF Token for security -->
+                                                            @method('PUT') <!-- Spoofing PUT method for updating -->
 
-                                                            <div class="grid gap-4 mb-4 grid-cols-2">
-
-                                                                <div class="col-span-2">
-                                                                    <label for="name"
-                                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Слика</label>
-
-                                                                    <input type="file" name="image_path"
-                                                                        id="image_path">
-                                                                </div>
-
-                                                                <div class="col-span-2">
-                                                                    <label for="name"
-                                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Име</label>
-                                                                    <input type="text" name="name"
-                                                                        id="name" value="{{ $lecture->name }}"
-                                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                                        placeholder="Напиши го името на беџот"
-                                                                        required="">
-                                                                </div>
-
-                                                                <div class="col-span-2">
-                                                                    <label for="description"
-                                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Опис</label>
-                                                                    <textarea id="description" name="description" rows="4"
-                                                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                                        placeholder="Напиши опис на беџ">{{ old('description', $lecture->description) }}</textarea>
-                                                                </div>
+                                                            <!-- Course ID (Dropdown) -->
+                                                            <div class="mb-4">
+                                                                <label for="course_id"
+                                                                    class="block text-gray-700 text-sm font-bold mb-2">Course</label>
+                                                                <select name="course_id" id="course_id"
+                                                                    class="form-select block w-full mt-1">
+                                                                    <option value="">-- Select Course --</option>
+                                                                    @foreach ($courses as $course)
+                                                                        <option value="{{ $course->id }}"
+                                                                            {{ $lecture->course_id == $course->id ? 'selected' : '' }}>
+                                                                            {{ $course->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
-                                                            <button type="submit"
-                                                                class="text-white inline-flex items-center bg-gray-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                                Измени
-                                                            </button>
 
+                                                            <!-- Lecture Name -->
+                                                            <div class="mb-4">
+                                                                <label for="name"
+                                                                    class="block text-gray-700 text-sm font-bold mb-2">Lecture
+                                                                    Name</label>
+                                                                <input type="text" name="name" id="name"
+                                                                    class="form-input block w-full mt-1"
+                                                                    value="{{ old('name', $lecture->name) }}"
+                                                                    required>
+                                                            </div>
+
+                                                            <!-- Lecture Description -->
+                                                            <div class="mb-4">
+                                                                <label for="description"
+                                                                    class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                                                                <textarea name="description" id="description" rows="4" class="form-textarea block w-full mt-1" required>{{ old('description', $lecture->description) }}</textarea>
+                                                            </div>
+
+                                                            <!-- Audio Path (Optional) -->
+                                                            <div class="mb-4">
+                                                                <label for="audio_path"
+                                                                    class="block text-gray-700 text-sm font-bold mb-2">Audio
+                                                                    Path (Optional)</label>
+                                                                <input type="text" name="audio_path"
+                                                                    id="audio_path"
+                                                                    class="form-input block w-full mt-1"
+                                                                    value="{{ old('audio_path', $lecture->audio_path) }}">
+                                                            </div>
+
+                                                            <!-- Duration (Optional) -->
+                                                            <div class="mb-4">
+                                                                <label for="duration"
+                                                                    class="block text-gray-700 text-sm font-bold mb-2">Duration
+                                                                    (in minutes) (Optional)</label>
+                                                                <input type="number" name="duration" id="duration"
+                                                                    class="form-input block w-full mt-1"
+                                                                    value="{{ old('duration', $lecture->duration) }}">
+                                                            </div>
+
+                                                            <!-- Submit Button -->
+                                                            <div class="flex items-center justify-between">
+                                                                <button type="submit"
+                                                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                                    Update Lecture
+                                                                </button>
+                                                            </div>
                                                         </form>
 
                                                     </div>
@@ -347,13 +402,12 @@
 
                                             <form class="space-y-0" method="POST"
                                                 action="{{ route('lectures.destroy', $lecture->id) }}"
-                                                onsubmit="return confirm('Дали си сигурен дека сакаш да ja избришеш оваа Лекција?');">
+                                                onsubmit="return confirm('Дали си сигурен дека сакаш да ja избришеш овoj лекција?');">
                                                 @method('DELETE')
                                                 @csrf
 
                                                 <button class="text-xs font-semibold border-b-2 border-red-600"
-                                                    type="submit">Избриши
-                                                    Лекција</button>
+                                                    type="submit">Избриши лекција</button>
                                             </form>
                                         </div>
                                     </td>
@@ -372,5 +426,7 @@
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
 </x-app-layout>

@@ -19,6 +19,8 @@ class UserInfo extends Model
         'study_time',
     ];
 
+    protected $table = 'user_info';
+
     public function user()
     {
         return $this->belongsTo(User::class);
