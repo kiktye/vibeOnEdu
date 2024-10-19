@@ -103,6 +103,7 @@
 <div class="p-4 sm:ml-64">
     <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
         <div class="grid grid-cols-3 gap-4 mb-4">
+<<<<<<< HEAD
 
             <a href="#" class="text-2xl text-gray-400 dark:text-gray-500">
 
@@ -175,6 +176,21 @@
             {{--                    </form> --}}
             {{--                </div> --}}
             {{--            </section> --}}
+=======
+            <a href="{{route('modules.index')}}" class="text-2xl text-gray-400 dark:text-gray-500">
+            <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+                   <p>Modules</p>
+            </div>
+            </a>
+
+>>>>>>> 53ea72a9b6229834c95c66124f165bc13512e79d
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
