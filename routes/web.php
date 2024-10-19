@@ -32,4 +32,17 @@ Route::middleware('auth')->group(function () {
 Route::get('/manage', function () {
     return view('manage');
 })->name('manage');
+
+
+Route::prefix('modules')->name('modules.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\ModuleController::class, 'index'])->name('index');
+    Route::get('{module}', [\App\Http\Controllers\ModuleController::class, 'show'])->name('show');
+
+    Route::post('/', [\App\Http\Controllers\ModuleController::class, 'store'])->name('store');
+
+    Route::delete('{module}', [\App\Http\Controllers\ModuleController::class, 'destroy'])->name('destroy');
+    Route::put('{modules}', [\App\Http\Controllers\ModuleController::class, 'update'])->name('update');
+
+});
+
 require __DIR__.'/auth.php';
