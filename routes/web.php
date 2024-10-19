@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TopicsController;
 use App\Http\Controllers\coursesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FunFactController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,6 +63,8 @@ Route::middleware('auth')->group(function () {
         Route::put('{modules}', [\App\Http\Controllers\ModuleController::class, 'update'])->name('update');
     });
 
+
+    //Lectures managment
     Route::controller(LectureController::class)->group(function () {
         Route::get('/lectures', 'index')->name('lectures.index');
         Route::get('/lectures/create', 'create')->name('lectures.create');
@@ -71,6 +74,19 @@ Route::middleware('auth')->group(function () {
         Route::put('/lectures/{lecture}', 'update')->name('lectures.update');
         Route::delete('/lectures/{lecture}', 'destroy')->name('lectures.destroy');
     });
+
+
+    Route::controller(FunFactController::class)->group(function () {
+        Route::get('/funFacts', 'index')->name('funFacts.index');
+        Route::get('/funFacts/create', 'create')->name('funFacts.create');
+        Route::post('/funFacts/create', 'store')->name('funFacts.store');
+        Route::get('/funFacts/{funFact}', 'show')->name('funFacts.show');
+        Route::get('/funFacts/{funFact}/edit', 'edit')->name('funFacts.edit');
+        Route::put('/funFacts/{funFact}', 'update')->name('funFacts.update');
+        Route::delete('/funFacts/{funFact}', 'destroy')->name('funFacts.destroy');
+    });
+
+
 });
 
 
