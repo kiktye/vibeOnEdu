@@ -10,6 +10,7 @@ class UserLecture extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'lecture_id',
         'started_at',
         'completed_at'
