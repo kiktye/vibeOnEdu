@@ -9,7 +9,11 @@ class Topic extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+    
     protected $fillable = [
         'name',
     ];
+
+    protected $table = 'topics';
 }

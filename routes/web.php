@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TopicsController;
+use App\Http\Controllers\coursesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +35,12 @@ Route::get('/manage', function () {
     return view('manage');
 })->name('manage');
 require __DIR__.'/auth.php';
+
+Route::resource('topics', TopicsController::class);
+
+Route::resource('courses', CoursesController::class);
+
+// Route::prefix('admin')->group( function (){
+
+//     Route::resource('topics', TopicsController::class);
+// });
