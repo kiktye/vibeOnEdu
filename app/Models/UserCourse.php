@@ -12,5 +12,9 @@ class UserCourse extends Model
     protected $fillable = [
         'user_id',
         'course_id',
+        'started_at',
+        'completed_at'
     ];
+
+    
 }

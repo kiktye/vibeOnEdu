@@ -11,6 +11,7 @@ class UserTopic extends Model
 
     protected $fillable = [
         'user_id',
-        'topic_id'
+        'topic_id',
+        'status'
     ];
 }
