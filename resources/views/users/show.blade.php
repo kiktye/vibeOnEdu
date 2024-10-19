@@ -28,6 +28,7 @@
     </svg>
 </button>
 
+
 <aside id="default-sidebar"
     class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidebar">
@@ -100,75 +101,148 @@
     </div>
 </aside>
 
-<div class="p-4 sm:ml-64">
-    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-        <div class="grid grid-cols-3 gap-4 mb-4">
-
-            <a href="#" class="text-2xl text-gray-400 dark:text-gray-500">
-
-                <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                    <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 18 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 1v16M1 9h16" />
-                    </svg>
+<div class="flex flex-col lg:flex-row p-4 space-y-4 lg:space-y-0 lg:space-x-4 items-start w-[87.5%] absolute right-0 ">
+    <!-- info -->
+    <div class="space-y-4 w-full lg:w-auto">
+        {{-- Basic Info Section --}}
+        <div class="top-4 rounded bg-white border border-gray-300 shadow-lg">
+            <div class="flex flex-col p-6">
+                <div class="flex flex-row justify-between space-x-4 items-center">
+                    <div class="text-xl">Информации за корисник</div>
                 </div>
-            </a>
 
-            <a href=" {{ route('badges.index') }} " class="text-2xl text-gray-400 dark:text-gray-500">
-                <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                    Badges
+                <div class="mt-4 self-start items-start">
+                    <p class="italic">Локација:</p>
+                    <h1 class="font-bold italic text-xl">{{ $user->country }} {{ $user->city }}</h1>
+                    <p class="italic">Контакт:</p>
+                    <p class="font-medium">{{ $user->email }} | {{ $user->phone }}</p>
                 </div>
-            </a>
 
-            <a href=" {{ route('users.index') }} " class="text-2xl text-gray-400 dark:text-gray-500">
-                <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                    Users
+            </div>
+        </div>
+
+        {{-- Blogs Info Section --}}
+        <div class="top-4 rounded bg-white border border-gray-300 shadow-lg">
+            <div class="flex flex-col p-6 space-y-0.5">
+                <div class="flex flex-col justify-between">
+                    <div class="text-xl">Информации за блогови</div>
+                    <h2>Корисникот има напишано <span class="font-semibold">/</span>
+                        блогови
+                    </h2>
                 </div>
-            </a>
 
-            {{--            <section class="bg-white dark:bg-gray-900"> --}}
-            {{--                <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16"> --}}
-            {{--                    <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Topics</h2> --}}
-            {{--                    <form action="#"> --}}
-            {{--                        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6"> --}}
-            {{--                            <div class="sm:col-span-2"> --}}
-            {{--                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label> --}}
-            {{--                                <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required=""> --}}
-            {{--                            </div> --}}
-            {{--                            <div class="w-full"> --}}
-            {{--                                <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label> --}}
-            {{--                                <input type="text" name="brand" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Product brand" required=""> --}}
-            {{--                            </div> --}}
-            {{--                            <div class="w-full"> --}}
-            {{--                                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label> --}}
-            {{--                                <input type="number" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required=""> --}}
-            {{--                            </div> --}}
-            {{--                            <div> --}}
-            {{--                                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label> --}}
-            {{--                                <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"> --}}
-            {{--                                    <option selected="">Select category</option> --}}
-            {{--                                    <option value="TV">TV/Monitors</option> --}}
-            {{--                                    <option value="PC">PC</option> --}}
-            {{--                                    <option value="GA">Gaming/Console</option> --}}
-            {{--                                    <option value="PH">Phones</option> --}}
-            {{--                                </select> --}}
-            {{--                            </div> --}}
-            {{--                            <div> --}}
-            {{--                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item Weight (kg)</label> --}}
-            {{--                                <input type="number" name="item-weight" id="item-weight" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="12" required=""> --}}
-            {{--                            </div> --}}
-            {{--                            <div class="sm:col-span-2"> --}}
-            {{--                                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label> --}}
-            {{--                                <textarea id="description" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Your description here"></textarea> --}}
-            {{--                            </div> --}}
-            {{--                        </div> --}}
-            {{--                        <button type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"> --}}
-            {{--                            Add product --}}
-            {{--                        </button> --}}
-            {{--                    </form> --}}
-            {{--                </div> --}}
-            {{--            </section> --}}
+            </div>
+        </div>
+
+        {{-- Comments --}}
+
+        {{-- Back to usrs Button --}}
+        <div class="top-4 rounded bg-white border border-gray-300 shadow-lg">
+            <div class="flex flex-col justify-between p-4 text-center">
+                <a href="{{ route('users.index') }}" class="text-sm font-semibold">Назад кон сите корисници</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage User Info Section -->
+    <div class="flex-grow w-full lg:w-auto rounded bg-white border border-gray-300 shadow-lg">
+        <div class="flex flex-col p-4 lg:p-6">
+            <span class="text-lg lg:text-xl">Управувај со податоци на корисник</span>
+
+
+            {{-- section to manage informations --}}
+            <div class="flex flex-col lg:flex-row justify-around items-center my-6 space-y-4 lg:space-y-0">
+                <div class="my-2 text-center lg:text-left">
+                    <h1 class="font-bold text-lg lg:text-xl"> <span class="text-sm italic">Име |</span>
+                        {{ $user->name }}</h1>
+
+                    <h1 class="font-bold text-lg lg:text-xl"> <span class="text-sm italic">Презиме |</span>
+                        {{ $user->surname }}</h1>
+
+                    {{-- edit form modal pop up --}}
+                    {{-- <x-modal :trigger="$user->id" :button="'Измени'">
+                        <x-forms.form method="POST" action="{{ route('users.update.credentials', $user->id) }}">
+                            @method('PATCH')
+
+                            <x-forms.input label="Име" name="name" value="{{ old('name', $user->name) }}" />
+
+                            <x-forms.input label="Презиме" name="surname"
+                                value="{{ old('surname', $user->surname) }}" />
+
+                            <x-forms.button type="submit">Зачувај промени</x-forms.button>
+                        </x-forms.form>
+                    </x-modal> --}}
+                </div>
+
+                <div class="my-2 text-center lg:text-left">
+                    <h1 class="font-bold text-lg lg:text-xl"> <span class="text-sm italic">Email |</span>
+                        {{ $user->email }}</h1>
+
+                    <h1 class="font-bold text-lg lg:text-xl"> <span class="text-sm italic">Телефонски број
+                            |</span>
+                        {{ $user->phone }}</h1>
+
+                    <h1 class="font-bold text-lg lg:text-xl"> <span class="text-sm italic">Title |</span>
+                        {{ $user->title }}</h1>
+
+                    {{-- edit form modal pop up --}}
+                    {{-- <x-modal :trigger="$user->id" :button="'Измени'">
+                        <x-forms.form method="POST" action="{{ route('users.update.info', $user->id) }}">
+                            @method('PATCH')
+
+                            <x-forms.input label="Email" name="email" value="{{ old('email', $user->email) }}" />
+
+                            <x-forms.input label="Телефонски број" name="phone"
+                                value="{{ old('phone', $user->phone) }}" />
+
+                            <x-forms.input label="Title" name="title" value="{{ old('title', $user->title) }}" />
+
+                            <x-forms.button type="submit">Зачувај промени</x-forms.button>
+                        </x-forms.form>
+                    </x-modal> --}}
+                </div>
+            </div>
+
+            <div class="mt-5 border-b border-gray-300"></div>
+
+            <div class="flex flex-col items-center">
+                <div class="flex flex-row space-x-2 my-6">
+                    <span class="font-bold italic text-sm">Биографија | </span>
+                    <p class="max-w-full lg:max-w-[800px] text-center lg:text-left"> {{ $user->bio }}</p>
+                </div>
+
+                Несоодветна содржина?
+
+                {{-- <x-modal :trigger="$user->id" :button="'Измени'">
+                    <x-forms.form method="POST" action="{{ route('users.update.bio', $user->id) }}">
+                        @method('PATCH')
+
+                        <x-forms.textarea label="Биографија" name="bio" value="{{ old('bio', $user->bio) }}" />
+
+                        <x-forms.button type="submit">Зачувај промени</x-forms.button>
+                    </x-forms.form>
+                </x-modal> --}}
+            </div>
+
+            <p class="text-sm font-semibold text-slate-700 flex items-center justify-center lg:justify-start my-10">
+                Корисникот е креиран на : {{ $user->created_at->format('M d, Y') }}
+            </p>
+
+            <div class="mt-5 border-b border-gray-300"></div>
+
+
+
+            {{-- button/form to delete entire user --}}
+            <div class="rounded mt-4 bg-white border border-gray-300 shadow-lg p-4 text-center">
+                <form class="space-y-0" method="POST" action="{{ route('users.destroy', $user->id) }}"
+                    onsubmit="return confirm('Дали си сигурен дека сакаш да го избришеш овој Корисник?');">
+                    @method('DELETE')
+
+                    <button class="text-sm font-semibold border-b-2 border-red-600" type="submit">Избриши
+                        корисник</button>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
