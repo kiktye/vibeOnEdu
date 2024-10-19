@@ -19,6 +19,17 @@ class DatabaseSeeder extends Seeder
             TopicSeeder::class,
             CitySeeder::class,
             UserInfoSeeder::class,
+            UserTopicsSeeder::class,
+            BadgesSeeder::class,
+            ModuleSeeder::class,
+            CourseSeeder::class,
+            UserBadgesSeeder::class,
+            LectureSeeder::class,
+            UserLectureSeeder::class,
+            MaterialsSeeder::class,
+            CertificateSeeder::class,
+            UserEvaluationSeeder::class,
+            UserCourseSeeder::class,
         ]);
     }
 }
