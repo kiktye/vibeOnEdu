@@ -127,6 +127,12 @@
                 </div>
             </a>
 
+            <a href=" {{ route('lectures.index') }} " class="text-2xl text-gray-400 dark:text-gray-500">
+                <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+                    Users
+                </div>
+            </a>
+
             {{--            <section class="bg-white dark:bg-gray-900"> --}}
             {{--                <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16"> --}}
             {{--                    <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Topics</h2> --}}

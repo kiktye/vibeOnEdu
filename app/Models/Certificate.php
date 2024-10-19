@@ -14,4 +14,14 @@ class Certificate extends Model
         'course_id',
         'image_path'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }
