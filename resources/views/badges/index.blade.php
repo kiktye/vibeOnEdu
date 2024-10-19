@@ -217,8 +217,7 @@
                                 <tr class="border-b">
 
                                     <td class="p-4 border-b border-slate-200">
-                                        <img src=" {{ asset('storage/' . $badge->image_path) }} "
-                                            alt="will upload later"
+                                        <img src=" {{ asset($badge->image_path) }} " alt="will upload later"
                                             class="relative inline-block h-9 w-9 !rounded-full object-cover object-center" />
                                     </td>
                                     <td class="p-4 border-b border-slate-200">

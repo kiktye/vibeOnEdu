@@ -64,7 +64,7 @@ class User extends Authenticatable
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'user_courses')
-                    ->withTimestamps()->withPivot('started_at', 'completed_at');
+            ->withTimestamps()->withPivot('started_at', 'completed_at');
     }
 
     public function evaluations()
@@ -80,9 +80,9 @@ class User extends Authenticatable
     public function lectures()
     {
         return $this->belongsToMany(Lecture::class, 'user_lectures')
-                    ->withTimestamps()->withPivot('started_at', 'completed_at');
+            ->withTimestamps()->withPivot('started_at', 'completed_at');
     }
-    
+
     public function certificates()
     {
         return $this->hasMany(Certificate::class);
