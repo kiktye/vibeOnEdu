@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LectureController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,13 @@ Route::get('/manage', function () {
     return view('manage');
 })->name('manage');
 require __DIR__.'/auth.php';
+
+Route::controller(LectureController::class)->group(function () {
+    Route::get('/lectures', 'index')->name('lectures.index');
+    Route::get('/lectures/create', 'create')->name('lectures.create');
+    Route::post('/lectures/create', 'store')->name('lectures.store');
+    Route::get('/lectures/{lecture}', 'show')->name('lectures.show');
+    Route::get('/lectures/{lecture}/edit', 'edit')->name('lectures.edit');
+    Route::put('/lectures/{lecture}', 'update')->name('lectures.update');
+    Route::delete('/lectures/{lecture}', 'destroy')->name('lectures.destroy');
+});

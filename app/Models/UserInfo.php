@@ -18,4 +18,14 @@ class UserInfo extends Model
         'image_path',
         'study_time',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 }
