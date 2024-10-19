@@ -15,19 +15,8 @@ class TopicsController extends Controller
         $topics = Topic::all();
 
         return view('topics.index', ['topics' => $topics]);
-
-        // $events = Event::all();
-        // $conferences = AnnualConference::all();
-        // return view('agenda.create', compact('events', 'conferences'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('topics.create');
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -38,11 +27,9 @@ class TopicsController extends Controller
             'name' => 'required',
         ]);
 
-    
         Topic::create([
             'name' => $validated['name']
         ]);
-        // dd($validatedt);
 
         return redirect('topics')->with('success', 'Topic created successfully!');
     }
@@ -51,14 +38,6 @@ class TopicsController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
     {
         //
     }

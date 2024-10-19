@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Course;
 
 class CoursesController extends Controller
 {
@@ -11,7 +12,10 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        //
+        $courses = Course::with('modules')->get();
+        $modules = Module::all();
+
+        return view('courses.index', ['courses' => $courses, 'modules' => $modules]);
     }
 
     /**
@@ -19,7 +23,7 @@ class CoursesController extends Controller
      */
     public function create()
     {
-        //
+    
     }
 
     /**
