@@ -36,6 +36,21 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function checkEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $emailExists = User::where('email', $request->email)->exists();
+
+        if ($emailExists) {
+            return response()->json(['message' => 'Email already taken'], 409);
+        }
+
+        return response()->json(['message' => 'Email available'], 200);
+    }
+
     // Register with email and password
     public function register(Request $request)
     {
@@ -45,16 +60,16 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
 
             'gender' => 'required|string',
-            'city' => 'required|string',
+            // 'city' => 'required|string',
             'birth_date' => 'required|date',
             'phone' => 'required|string',
             'password' => 'required|string|min:6',
-            'password_confirmation' => 'required|same:password',
+            // 'password_confirmation' => 'required|same:password',
 
-            'topics' => 'required|array',
-            'topics.*' => 'required|string',
+            // 'topics' => 'required|array',
+            // 'topics.*' => 'required|string',
 
-            'study_time' => 'required|string',
+            // 'study_time' => 'required|string',
         ]);
 
         $user = User::create([
@@ -67,10 +82,10 @@ class AuthController extends Controller
         $userInfo = UserInfo::create([
             'user_id' => $user->id,
             'gender' => $request->gender,
-            'city' => $request->city,
+            // 'city' => $request->city,
             'birth_date' => $request->birth_date,
             'phone' => $request->phone,
-            'study_time' => $request->study_time,
+            // 'study_time' => $request->study_time,
         ]);
 
 
