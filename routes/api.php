@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BadgeController;
 use App\Http\Controllers\Api\CertificateController;
 use App\Http\Controllers\Api\EvaluationController;
+use App\Http\Controllers\Api\QuizController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\LectureController;
@@ -43,3 +44,5 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     Route::apiResource('courses', CourseController::class);
     Route::apiResource('certificates', CertificateController::class);
 });
+
+Route::apiResource('quizzes', QuizController::class);
