@@ -30,6 +30,9 @@ class DatabaseSeeder extends Seeder
             CertificateSeeder::class,
             UserEvaluationSeeder::class,
             UserCourseSeeder::class,
+            QuizSeeder::class,
+            QuestionSeeder::class,
+            OptionSeeder::class,
         ]);
     }
 }

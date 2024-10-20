@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\LectureController;
+use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TopicsController;
 use App\Http\Controllers\CoursesController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\MaterialController; // Ensure this is included
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\QuizController;
+use App\Http\Controllers\QuestionController;
 
 
 Route::get('/', function () {
@@ -85,6 +88,49 @@ Route::middleware('auth')->group(function () {
         Route::put('/funFacts/{funFact}', 'update')->name('funFacts.update');
         Route::delete('/funFacts/{funFact}', 'destroy')->name('funFacts.destroy');
     });
+
+
+    // Topics
+    Route::resource('/topics', TopicsController::class, ['except' => ['create', 'edit', 'show']]);
+
+// Courses
+    Route::resource('/courses', CoursesController::class, ['except' => ['create', 'edit', 'show']]);
+
+    //Quizzes
+    Route::controller(QuizController::class)->group(function () {
+        Route::get('/quizzes', 'index')->name('quizzes.index');
+        Route::get('/quizzes/create', 'create')->name('quizzes.create');
+        Route::post('/quizzes/create', 'store')->name('quizzes.store');
+        Route::get('/quizzes/{quiz}', 'show')->name('quizzes.show');
+        Route::get('/quizzes/{quiz}/edit', 'edit')->name('quizzes.edit');
+        Route::put('/quizzes/{quiz}', 'update')->name('quizzes.update');
+        Route::delete('/quizzes/{quiz}', 'destroy')->name('quizzes.destroy');
+    });
+
+    //Questions
+    Route::controller(QuestionController::class)->group(function () {
+        Route::get('/questions', 'index')->name('questions.index');
+        Route::get('/questions/create', 'create')->name('questions.create');
+        Route::post('/questions', 'store')->name('questions.store'); // Adjusted for storing questions
+        Route::get('/questions/{question}', 'show')->name('questions.show'); // Show quiz questions
+        Route::get('/questions/{quiz}/edit/{question}', 'edit')->name('questions.edit'); // Edit specific question
+        Route::put('/questions/{question}', 'update')->name('questions.update'); // Update specific question
+        Route::delete('/questions/{question}', 'destroy')->name('questions.destroy');
+    });
+
+        //Options
+        Route::controller(OptionController::class)->group(function () {
+            Route::get('/options', 'index')->name('options.index');
+            Route::get('/options/create', 'create')->name('options.create');
+            Route::post('/options', 'store')->name('options.store'); // Adjusted for storing options
+            Route::get('/options/{option}', 'show')->name('options.show'); // Show quiz options
+            Route::get('/options/{question}/edit/{option}', 'edit')->name('options.edit'); // Edit specific option
+            Route::put('/options/{option}', 'update')->name('options.update'); // Update specific option
+            Route::delete('/options/{option}', 'destroy')->name('options.destroy');
+        });
+    
+
+
 });
 
 
@@ -112,6 +158,8 @@ Route::get('/manage', function () {
 })->name('manage');
 
 require __DIR__ . '/auth.php';
+
+
 
 // Topics
 Route::resource('/topics', TopicsController::class, ['except' => ['create', 'edit', 'show']]);

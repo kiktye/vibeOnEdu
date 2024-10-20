@@ -145,6 +145,12 @@
                     </div>
                 </a>
 
+
+                <a href="{{ route('quizzes.index') }}" class="text-2xl text-gray-400 dark:text-gray-500">
+                    <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+                        <p>Quiz</p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

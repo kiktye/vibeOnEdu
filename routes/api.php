@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BadgeController;
 use App\Http\Controllers\Api\CertificateController;
 use App\Http\Controllers\Api\EvaluationController;
+use App\Http\Controllers\Api\QuizController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\LectureController;
@@ -33,6 +34,18 @@ Route::post('logout', [AuthController::class, 'logout']);
 Route::post('auth/social/{provider}', [AuthController::class, 'socialLogin']);
 
 
+Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('modules', ModuleController::class);
+    Route::apiResource('lectures', LectureController::class);
+    Route::apiResource('materials', MaterialController::class);
+    Route::apiResource('evaluations', EvaluationController::class);
+    Route::apiResource('badges', BadgeController::class);
+    Route::apiResource('courses', CourseController::class);
+    Route::apiResource('certificates', CertificateController::class);
+});
+
+Route::apiResource('quizzes', QuizController::class);
 Route::apiResource('modules', ModuleController::class);
 Route::apiResource('lectures', LectureController::class);
 Route::apiResource('evaluations', EvaluationController::class);
