@@ -128,7 +128,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/options/{option}', 'update')->name('options.update'); // Update specific option
             Route::delete('/options/{option}', 'destroy')->name('options.destroy');
         });
-    
+
 
 
 });
@@ -151,7 +151,9 @@ Route::post('/upload/image', [ImageUploadController::class, 'uploadImage'])->nam
 
 
 
-
+Route::get('/graph' , function () {
+    return view('graph');
+})->name('graph');
 
 Route::get('/manage', function () {
     return view('manage');
