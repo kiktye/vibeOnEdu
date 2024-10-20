@@ -54,64 +54,64 @@ class MaterialsSeeder extends Seeder
      * Get random content based on the material type.
      */
     private function getRandomContent(string $type): string
-    {
-        switch ($type) {
-            case 'text':
-                return [
-                    'time' => time(),
-                    'blocks' => [
-                        [
-                            'type' => 'header',
-                            'data' => [
-                                'text' => 'Random Header ' . rand(1, 100),
-                                'level' => 2,
-                            ],
-                        ],
-                        [
-                            'type' => 'paragraph',
-                            'data' => [
-                                'text' => 'This is a random text content for the material. Here is some more detail about the topic.',
-                            ],
+{
+    switch ($type) {
+        case 'text':
+            return json_encode([ // Convert to JSON
+                'time' => time(),
+                'blocks' => [
+                    [
+                        'type' => 'header',
+                        'data' => [
+                            'text' => 'Random Header ' . rand(1, 100),
+                            'level' => 2,
                         ],
                     ],
-                    'version' => '2.22.2',
-                ];
-            case 'image':
-                return [
-                    'time' => time(),
-                    'blocks' => [
-                        [
-                            'type' => 'image',
-                            'data' => [
-                                'file' => [
-                                    'url' => 'https://cdn.corporatefinanceinstitute.com/assets/finance-definition.jpg',
-                                ],
-                                'caption' => 'Random Image Caption',
-                                'stretched' => false,
-                                'withBackground' => false,
-                            ],
+                    [
+                        'type' => 'paragraph',
+                        'data' => [
+                            'text' => 'This is a random text content for the material. Here is some more detail about the topic.',
                         ],
                     ],
-                    'version' => '2.22.2',
-                ];
-            case 'audio':
-                return json_encode([
-                    'time' => time(),
-                    'blocks' => [
-                        [
-                            'type' => 'audio',
-                            'data' => [
-                                'file' => [
-                                    'url' => 'resources/Lekcii_mp3/test.m4a',
-                                ],
-                                'caption' => 'Random Audio Caption',
+                ],
+                'version' => '2.22.2',
+            ]);
+        case 'image':
+            return json_encode([ // Convert to JSON
+                'time' => time(),
+                'blocks' => [
+                    [
+                        'type' => 'image',
+                        'data' => [
+                            'file' => [
+                                'url' => 'https://cdn.corporatefinanceinstitute.com/assets/finance-definition.jpg',
                             ],
+                            'caption' => 'Random Image Caption',
+                            'stretched' => false,
+                            'withBackground' => false,
                         ],
                     ],
-                    'version' => '2.22.2',
-                ]);
-            default:
-                return '';
-        }
+                ],
+                'version' => '2.22.2',
+            ]);
+        case 'audio':
+            return json_encode([ // This case is already correct
+                'time' => time(),
+                'blocks' => [
+                    [
+                        'type' => 'audio',
+                        'data' => [
+                            'file' => [
+                                'url' => 'resources/Lekcii_mp3/test.m4a',
+                            ],
+                            'caption' => 'Random Audio Caption',
+                        ],
+                    ],
+                ],
+                'version' => '2.22.2',
+            ]);
+        default:
+            return '';
     }
+}
 }
