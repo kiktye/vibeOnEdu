@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CertificateResource;
-use App\Http\Resources\CertificateCollection;
-use App\Models\Badge;
-use App\Models\Certificate;
+use App\Http\Resources\MaterialResource;
+use App\Http\Resources\MaterialCollection;
+use App\Models\Material;
 use Illuminate\Http\Request;
 
 class MaterialController extends Controller
@@ -16,7 +15,7 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        return new CertificateCollection(Certificate::all());
+        return new MaterialCollection(Material::all());
     }
 
     /**
@@ -30,9 +29,9 @@ class MaterialController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Certificate $certificate)
+    public function show(Material $material)
     {
-        return new CertificateResource($certificate);
+        return new MaterialResource($material);
     }
 
     /**

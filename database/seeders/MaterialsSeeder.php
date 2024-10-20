@@ -10,7 +10,7 @@ class MaterialsSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    
+
     public function run(): void
     {
         // Get all lecture IDs
@@ -57,7 +57,7 @@ class MaterialsSeeder extends Seeder
     {
         switch ($type) {
             case 'text':
-                return [
+                return json_encode([ // Convert to JSON
                     'time' => time(),
                     'blocks' => [
                         [
@@ -75,9 +75,9 @@ class MaterialsSeeder extends Seeder
                         ],
                     ],
                     'version' => '2.22.2',
-                ];
+                ]);
             case 'image':
-                return [
+                return json_encode([ // Convert to JSON
                     'time' => time(),
                     'blocks' => [
                         [
@@ -93,9 +93,9 @@ class MaterialsSeeder extends Seeder
                         ],
                     ],
                     'version' => '2.22.2',
-                ];
+                ]);
             case 'audio':
-                return json_encode([
+                return json_encode([ // This case is already correct
                     'time' => time(),
                     'blocks' => [
                         [
