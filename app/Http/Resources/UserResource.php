@@ -20,10 +20,24 @@ class UserResource extends JsonResource
             'surname' => $this->surname,
             'email' => $this->email,
             'lastLoginAt' => $this->last_login_at,
-            'lastAchievedBadge' => new BadgeResource($this->additional['lastAchievedBadge']),
-            'AllBadgesAchieved' => BadgeCollection::make($this->additional['AllBadgesAchieved']),
-            'coursesInProgress' => BadgeCollection::make($this->additional['coursesInProgress']),
-            'finishedCourses' => BadgeCollection::make($this->additional['finishedCourses']),
+
+            // Safely check if additional data is set and provide default values if not
+            'lastAchievedBadge' => isset($this->additional['lastAchievedBadge'])
+                ? new BadgeResource($this->additional['lastAchievedBadge'])
+                : null,  // Default to null if not provided
+
+            'AllBadgesAchieved' => isset($this->additional['AllBadgesAchieved'])
+                ? BadgeCollection::make($this->additional['AllBadgesAchieved'])
+                : BadgeCollection::make([]),  // Default to empty collection
+
+            'coursesInProgress' => isset($this->additional['coursesInProgress'])
+                ? BadgeCollection::make($this->additional['coursesInProgress'])
+                : BadgeCollection::make([]),  // Default to empty collection
+
+            'finishedCourses' => isset($this->additional['finishedCourses'])
+                ? BadgeCollection::make($this->additional['finishedCourses'])
+                : BadgeCollection::make([]),  // Default to empty collection
+
             'evaluations' => EvaluationResource::collection($this->whenLoaded('evaluations')),
             'topics' => TopicResource::collection($this->whenLoaded('topics')),
             'lectures' => LectureResource::collection($this->whenLoaded('lectures')),
