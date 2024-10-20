@@ -115,3 +115,4 @@ class MaterialsSeeder extends Seeder
     }
 }
 }
+
