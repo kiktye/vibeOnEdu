@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserInfo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,6 +27,10 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
+        $user->update([
+            'last_login_at' => now(),
+        ]);
+
         return response()->json([
             'token' => $user->createToken('auth_token')->plainTextToken
         ], 200);
@@ -38,7 +43,18 @@ class AuthController extends Controller
             'name' => 'required|string',
             'surname' => 'required|string',
             'email' => 'required|email|unique:users',
+
+            'gender' => 'required|string',
+            'city' => 'required|string',
+            'birth_date' => 'required|date',
+            'phone' => 'required|string',
             'password' => 'required|string|min:6',
+            'password_confirmation' => 'required|same:password',
+
+            'topics' => 'required|array',
+            'topics.*' => 'required|string',
+
+            'study_time' => 'required|string',
         ]);
 
         $user = User::create([
@@ -47,6 +63,16 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $userInfo = UserInfo::create([
+            'user_id' => $user->id,
+            'gender' => $request->gender,
+            'city' => $request->city,
+            'birth_date' => $request->birth_date,
+            'phone' => $request->phone,
+            'study_time' => $request->study_time,
+        ]);
+
 
         return response()->json([
             'token' => $user->createToken('auth_token')->plainTextToken

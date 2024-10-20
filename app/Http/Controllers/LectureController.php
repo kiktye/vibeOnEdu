@@ -2,85 +2,86 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Lecture;
+use Illuminate\Http\Request;
 use App\Models\Course;
 
 class LectureController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-
+        $courses = Course::all();
         $lectures = Lecture::all();
 
-        $courses = Course::all();
-
-        return view('lectures.index', compact('lectures', 'courses'));
+        return view('lectures.create', compact('courses', 'lectures'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $courses = Course::all();
-
-        return view('lectures.index', compact('courses'));
+        $courses = Course::all(); // Get all courses
+        return view('lectures.create', compact('courses'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
-    {
-        $request->validate([
-            'course_id' => 'required|exists:courses,id',
-            'name' => 'required|string|max:255',
-            'description' => 'required',
-            'audio_path' => 'nullable|string',
-            'duration' => 'nullable|integer',
-        ]);
+{
+    $request->validate([
+        'course_id' => 'required|exists:courses,id',
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'content' => 'required|json', // Ensure it's valid JSON
+        'audio_path' => 'nullable|file|mimes:mp3,wav',
+        'duration' => 'nullable|integer',
+    ]);
 
-        Lecture::create($request->all());
+    $lecture = new Lecture();
+    $lecture->course_id = $request->course_id;
+    $lecture->name = $request->name;
+    $lecture->description = $request->description;
+    $lecture->content = $request->content; // Store JSON content
 
-        return redirect()->route('lectures.index')->with('success', 'Lecture created successfully.');
+    if ($request->hasFile('audio_path')) {
+        $audioPath = $request->file('audio_path')->store('audios', 'public');
+        $lecture->audio_path = $audioPath;
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Lecture $lecture)
+    $lecture->duration = $request->duration;
+    $lecture->save();
+
+    return redirect()->route('create.lecture')->with('success', 'Lecture created successfully!');
+}
+
+    public function edit($id)
     {
-        return view('lectures.show', compact('lecture'));
+        $lecture = Lecture::findOrFail($id); // Find the lecture by ID
+        $courses = Course::all(); // Get all courses for dropdown
+        return view('lectures.edit', compact('lecture', 'courses'));
     }
 
-    public function edit(Lecture $lecture)
-    {
-        return view('lectures.edit', compact('lecture'));
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'course_id' => 'required|exists:courses,id',
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'content' => 'required|json', // Ensure valid JSON
+        'audio_path' => 'nullable|file|mimes:mp3,wav',
+        'duration' => 'nullable|integer',
+    ]);
+
+    $lecture = Lecture::findOrFail($id); // Find the lecture by ID
+    $lecture->course_id = $request->course_id;
+    $lecture->name = $request->name;
+    $lecture->description = $request->description;
+    $lecture->content = $request->content; // Store JSON content
+
+    if ($request->hasFile('audio_path')) {
+        $audioPath = $request->file('audio_path')->store('audios', 'public');
+        $lecture->audio_path = $audioPath;
     }
 
-    public function update(Request $request, Lecture $lecture)
-    {
-        $request->validate([
-            'course_id' => 'required|exists:courses,id',
-            'name' => 'required|string|max:255',
-            'description' => 'required',
-            'audio_path' => 'nullable|string',
-            'duration' => 'nullable|integer',
-        ]);
+    $lecture->duration = $request->duration;
+    $lecture->save();
 
-        $lecture->update($request->all());
-
-        return redirect()->route('lectures.index')->with('success', 'Lecture updated successfully.');
-    }
-
-    public function destroy(Lecture $lecture)
-    {
-        $lecture->delete();
-
-        return redirect()->route('lectures.index')->with('success', 'Lecture deleted successfully.');
-    }
+    return redirect()->route('edit.lecture', $lecture->id)->with('success', 'Lecture updated successfully!');
+}
 }
