@@ -83,6 +83,17 @@ Route::middleware('auth')->group(function () {
         Route::put('/funFacts/{funFact}', 'update')->name('funFacts.update');
         Route::delete('/funFacts/{funFact}', 'destroy')->name('funFacts.destroy');
     });
+
+
+    // Topics
+    Route::resource('/topics', TopicsController::class, ['except' => ['create', 'edit', 'show']]);
+
+// Courses
+    Route::resource('/courses', CoursesController::class, ['except' => ['create', 'edit', 'show']]);
+
+    Route::resource('/quizzes', \App\Http\Controllers\QuizController::class, ['except' => ['create', 'edit', 'show']]);
+
+
 });
 
 
@@ -97,12 +108,6 @@ Route::get('/manage', function () {
 })->name('manage');
 
 require __DIR__.'/auth.php';
-
-// Topics
-Route::resource('/topics', TopicsController::class, ['except' => ['create', 'edit', 'show']]);
-
-// Courses
-Route::resource('/courses', CoursesController::class, ['except' => ['create', 'edit', 'show']]);
 
 
 
