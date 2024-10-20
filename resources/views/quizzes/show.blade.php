@@ -117,7 +117,7 @@
                                     clip-rule="evenodd" />
                             </svg>
 
-                            Add Quiz
+                            Add Question
                         </button>
 
                         <!-- Main modal -->
@@ -130,7 +130,7 @@
                                     <div
                                         class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                            Create New Quiz
+                                            Create New Question
                                         </h3>
                                         <button type="button"
                                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -145,20 +145,21 @@
                                         </button>
                                     </div>
                                     <!-- Modal body -->
-                                    <form method="POST" action="{{ route('quizzes.store') }}"
+                                    <form method="POST"
+                                        action="{{ route('questions.store', ['quiz' => $quiz->id]) }}"
                                         enctype="multipart/form-data" class="p-4 md:p-5">
                                         @csrf
 
                                         <div class="container mx-auto p-4">
-                                            <h1 class="text-2xl font-bold mb-4">Create New Quiz</h1>
+                                            <h1 class="text-2xl font-bold mb-4">Add a Question to {{ $quiz->title }}
+                                            </h1>
 
                                             <!-- Display Validation Errors -->
                                             @if ($errors->any())
                                                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
                                                     role="alert">
                                                     <strong class="font-bold">Whoops!</strong> There were some problems
-                                                    with your
-                                                    input.
+                                                    with your input.
                                                     <ul class="mt-2 list-disc pl-5">
                                                         @foreach ($errors->all() as $error)
                                                             <li>{{ $error }}</li>
@@ -167,31 +168,25 @@
                                                 </div>
                                             @endif
 
-                                            <!-- Form to Create a New Quiz -->
-                                            <div class="mb-4">
-                                                <label for="title"
-                                                    class="block text-gray-700 text-sm font-bold mb-2">Quiz
-                                                    Title</label>
-                                                <input type="text" name="title" id="title"
-                                                    class="form-input block w-full mt-1" value="{{ old('title') }}"
-                                                    required>
-                                            </div>
+                                            <!-- Hidden Field for quiz_id -->
+                                            <input type="hidden" name="quiz_id" value="{{ $quiz->id }}">
 
+                                            <!-- Form to Create a New Question -->
                                             <div class="mb-4">
-                                                <label for="description"
-                                                    class="block text-gray-700 text-sm font-bold mb-2">Description</label>
-                                                <textarea name="description" id="description" class="form-input block w-full mt-1" required>{{ old('description') }}</textarea>
+                                                <label for="question_text"
+                                                    class="block text-gray-700 text-sm font-bold mb-2">Question
+                                                    Text</label>
+                                                <textarea name="question_text" id="question_text" class="form-input block w-full mt-1" required>{{ old('question_text') }}</textarea>
                                             </div>
 
                                             <!-- Submit Button -->
                                             <div class="flex items-center justify-between">
                                                 <button type="submit"
                                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                                    Create Quiz
+                                                    Add Question
                                                 </button>
                                             </div>
                                         </div>
-
                                     </form>
                                 </div>
                             </div>
@@ -200,161 +195,121 @@
                     </div>
                 </div>
 
-                <div class="overflow-x-auto">
-                    <table class="w-full mt-4 text-left table-auto min-w-max">
-                        <thead>
-                            <tr>
-                                <th
-                                    class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                                    <h1 class="capitalize font-medium text-sm">Quiz Title</h1>
-                                </th>
-                                <th
-                                    class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                                    <h1 class="capitalize font-medium text-sm">Description</h1>
-                                </th>
-                                <th
-                                    class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($quizzes as $quiz)
-                                <tr class="border-b">
-                                    <td class="p-4 border-b border-slate-200">
-                                        <p class="text-sm font-semibold text-slate-700">{{ $quiz->title }}</p>
-                                    </td>
-                                    <td class="p-4 border-b border-slate-200">
-                                        <p class="text-sm text-slate-700">{{ $quiz->description }}</p>
-                                    </td>
-                                    <td class="p-4 border-b border-slate-200">
-                                        <div class="flex items-center space-x-4">
-                                            <!-- Edit Quiz -->
-                                            <button data-modal-target="edit-modal-{{ $quiz->id }}"
-                                                data-modal-toggle="edit-modal-{{ $quiz->id }}"
-                                                class="flex items-center text-slate-900 transition-all hover:bg-slate-900/10 rounded-xl text-xs p-2"
-                                                type="button">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                    fill="currentColor" class="size-4 mr-1">
-                                                    <path d=" M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                                                    <path fill-rule="evenodd"
-                                                        d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
+                <table class="w-full mt-4 text-left table-auto min-w-max">
+                    <thead>
+                        <tr>
+                            <th
+                                class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
+                                <h1 class="capitalize font-medium text-sm">Quiz Title</h1>
+                            </th>
+                            <th
+                                class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
+                                <h1 class="capitalize font-medium text-sm">Description</h1>
+                            </th>
+                            <th
+                                class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
+                                <h1 class="capitalize font-medium text-sm">Questions</h1>
+                            </th>
+                            <th
+                                class="p-4 transition-colors cursor-default border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="text-sm font-semibold text-slate-700">{{ $quiz->title }}</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="text-sm text-slate-700">{{ $quiz->description }}</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <ul>
+                                    @foreach ($quiz->questions as $question)
+                                        <li class="flex justify-between items-center">
+                                            <span class="text-sm text-slate-600">{{ $question->question_text }}</span>
+
+                                            <!-- Edit Question -->
+                                            <button data-modal-target="edit-question-modal-{{ $question->id }}"
+                                                data-modal-toggle="edit-question-modal-{{ $question->id }}"
+                                                class="text-slate-900 transition-all hover:bg-slate-900/10 rounded-xl text-xs p-2">
                                                 Edit
                                             </button>
 
-                                            <!-- Add question Quiz -->
-                                            <a href="{{ route('quizzes.show', $quiz->id) }}"> <button
-                                                    data-modal-target="question-modal-{{ $quiz->id }}"
-                                                    data-modal-toggle="question-modal-{{ $quiz->id }}"
-                                                    class="flex items-center text-slate-900 transition-all hover:bg-slate-900/10 rounded-xl text-xs p-2"
-                                                    type="button">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                        fill="currentColor" class="size-4 mr-1">
-                                                        <path d=" M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                                                        <path fill-rule="evenodd"
-                                                            d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
-                                                    View quiz
-                                                </button>
-                                            </a>
+                                            <!-- Delete Question -->
+                                            <form
+                                                action="{{ route('questions.destroy', ['quiz' => $quiz->id, 'question' => $question->id]) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this question?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="text-red-600 transition-all hover:bg-red-600/10 rounded-xl text-xs p-2">Delete</button>
+                                            </form>
 
-                                            <!-- Edit Quiz Modal -->
-                                            <div id="edit-modal-{{ $quiz->id }}" tabindex="-1"
-                                                aria-hidden="true"
-                                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                                <div class="relative p-4 w-full max-w-md max-h-full">
-                                                    <!-- Modal content -->
-                                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                                        <!-- Modal header -->
-                                                        <div
-                                                            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                                                            <h3
-                                                                class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                                Edit Quiz
-                                                            </h3>
-                                                            <button type="button"
-                                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                                data-modal-toggle="edit-modal-{{ $quiz->id }}">
-                                                                <svg class="w-3 h-3" aria-hidden="true"
-                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                    viewBox="0 0 14 14">
-                                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                                        stroke-linejoin="round" stroke-width="2"
-                                                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                                                </svg>
-                                                                <span class="sr-only">Close modal</span>
-                                                            </button>
-                                                        </div>
-                                                        <!-- Modal body -->
-                                                        <form method="POST"
-                                                            action="{{ route('quizzes.update', $quiz->id) }}"
-                                                            enctype="multipart/form-data" class="p-4 md:p-5">
-                                                            @csrf
-                                                            @method('PUT')
+                                        </li>
 
-                                                            <!-- Title -->
-                                                            <div class="mb-4">
-                                                                <label for="title"
-                                                                    class="block text-gray-700 text-sm font-bold mb-2">Quiz
-                                                                    Title</label>
-                                                                <input type="text" name="title" id="title"
-                                                                    class="form-input block w-full mt-1"
-                                                                    value="{{ $quiz->title }}" required>
-                                                            </div>
-
-                                                            <!-- Description -->
-                                                            <div class="mb-4">
-                                                                <label for="description"
-                                                                    class="block text-gray-700 text-sm font-bold mb-2">Description</label>
-                                                                <textarea name="description" id="description" class="form-input block w-full mt-1" required>{{ $quiz->description }}</textarea>
-                                                            </div>
-
-                                                            <!-- Submit Button -->
-                                                            <div class="flex items-center justify-between">
-                                                                <button type="submit"
-                                                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                                                    Update Quiz
-                                                                </button>
-                                                            </div>
-                                                        </form>
+                                        <!-- Edit Question Modal -->
+                                        <div id="edit-question-modal-{{ $question->id }}" tabindex="-1"
+                                            aria-hidden="true"
+                                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                            <div class="relative p-4 w-full max-w-md max-h-full">
+                                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                    <div
+                                                        class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                                        <h3
+                                                            class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                            Edit Question</h3>
+                                                        <button type="button"
+                                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                            data-modal-toggle="edit-question-modal-{{ $question->id }}">
+                                                            <svg class="w-3 h-3" aria-hidden="true"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                viewBox="0 0 14 14">
+                                                                <path stroke="currentColor" stroke-linecap="round"
+                                                                    stroke-linejoin="round" stroke-width="2"
+                                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                            </svg>
+                                                            <span class="sr-only">Close modal</span>
+                                                        </button>
                                                     </div>
+                                                    <form method="POST"
+                                                        action="{{ route('questions.update', $question->id) }}"
+                                                        class="p-4 md:p-5">
+                                                        @csrf
+                                                        @method('PUT')
+
+                                                        <input type="hidden" name="quiz_id"
+                                                            value="{{ $quiz->id }}">
+
+                                                        <div class="mb-4">
+                                                            <label for="question_text"
+                                                                class="block text-gray-700 text-sm font-bold mb-2">Question
+                                                                Text</label>
+                                                            <input type="text" name="question_text"
+                                                                id="question_text"
+                                                                class="form-input block w-full mt-1"
+                                                                value="{{ $question->question_text }}" required>
+                                                        </div>
+                                                        <div class="flex items-center justify-between">
+                                                            <button type="submit"
+                                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update
+                                                                Question</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
-
-                                            <!-- Add Question Modal -->
-
-
                                         </div>
-                </div>
-            </div>
+                                    @endforeach
+                                </ul>
+                            </td>
 
-            <!-- Delete Quiz -->
-            <form action="{{ route('quizzes.destroy', $quiz->id) }}" method="POST"
-                onsubmit="return confirm('Are you sure you want to delete this quiz?')">
-                @csrf
-                @method('DELETE')
-                <button
-                    class="flex items-center text-red-600 transition-all hover:bg-red-600/10 rounded-xl text-xs p-2"
-                    type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                        class="size-4 mr-1">
-                        <path fill-rule="evenodd"
-                            d="M4.94 4.94a8 8 0 1 1 10.12 0L15 6l-1-1.06a8 8 0 0 0-10.12 0L4 6l.94-.06ZM10 7.08V8h.92l.04.04L10 7.08ZM9.08 8H10v.92L9.08 10V8ZM4 7.08V10h2V8H6V7.08H4Zm2 0v.92H6v-.92Zm4 0v.92H6v-.92H8Zm0 .92V10h.92V9.08H8Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Delete
-                </button>
-            </form>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
         </div>
-        </td>
-        </tr>
-        @endforeach
-        </tbody>
-        </table>
-    </div>
-    </div>
     </div>
     </div>
 

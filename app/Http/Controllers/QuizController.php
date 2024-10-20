@@ -16,15 +16,25 @@ class QuizController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+       $validatedData = $request->validate([
             'title' => 'required|string',
             'description' => 'nullable|string',
         ]);
 
-        Quiz::create($request->all());
+        $quiz = Quiz::create($validatedData);
 
-        return redirect()->route('quizzes.index');
+        return redirect()->route('quizzes.show', $quiz->id);
     }
+
+    public function show($id)
+{
+    
+    $quiz = Quiz::findOrFail($id);
+
+   
+    return view('quizzes.show', compact('quiz'));
+}
+
 
     public function update(Request $request, Quiz $quiz)
     {
