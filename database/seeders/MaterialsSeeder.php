@@ -10,6 +10,7 @@ class MaterialsSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+    
     public function run(): void
     {
         // Get all lecture IDs
@@ -56,11 +57,59 @@ class MaterialsSeeder extends Seeder
     {
         switch ($type) {
             case 'text':
-                return 'This is a random text content for the material.';
+                return [
+                    'time' => time(),
+                    'blocks' => [
+                        [
+                            'type' => 'header',
+                            'data' => [
+                                'text' => 'Random Header ' . rand(1, 100),
+                                'level' => 2,
+                            ],
+                        ],
+                        [
+                            'type' => 'paragraph',
+                            'data' => [
+                                'text' => 'This is a random text content for the material. Here is some more detail about the topic.',
+                            ],
+                        ],
+                    ],
+                    'version' => '2.22.2',
+                ];
             case 'image':
-                return 'https://cdn.corporatefinanceinstitute.com/assets/finance-definition.jpg'; // Specified image URL
+                return [
+                    'time' => time(),
+                    'blocks' => [
+                        [
+                            'type' => 'image',
+                            'data' => [
+                                'file' => [
+                                    'url' => 'https://cdn.corporatefinanceinstitute.com/assets/finance-definition.jpg',
+                                ],
+                                'caption' => 'Random Image Caption',
+                                'stretched' => false,
+                                'withBackground' => false,
+                            ],
+                        ],
+                    ],
+                    'version' => '2.22.2',
+                ];
             case 'audio':
-                return 'resources/Lekcii_mp3/test.m4a'; // Fixed audio path
+                return json_encode([
+                    'time' => time(),
+                    'blocks' => [
+                        [
+                            'type' => 'audio',
+                            'data' => [
+                                'file' => [
+                                    'url' => 'resources/Lekcii_mp3/test.m4a',
+                                ],
+                                'caption' => 'Random Audio Caption',
+                            ],
+                        ],
+                    ],
+                    'version' => '2.22.2',
+                ]);
             default:
                 return '';
         }

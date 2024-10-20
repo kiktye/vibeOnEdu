@@ -1,24 +1,16 @@
 <?php
-
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TopicsController;
-use App\Http\Controllers\coursesController;
+use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FunFactController;
+use App\Http\Controllers\UploadController;
+use App\Http\Controllers\MaterialController; // Ensure this is included
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ImageUploadController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,9 +30,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('{user}', [UserController::class, 'show'])->name('show');
         Route::post('/', [UserController::class, 'store'])->name('store');
-
-        Route::put('{badge}', [UserController::class, 'update'])->name('update');
-        Route::delete('{badge}', [UserController::class, 'destroy'])->name('destroy');
+        Route::put('{user}', [UserController::class, 'update'])->name('update');
+        Route::delete('{user}', [UserController::class, 'destroy'])->name('destroy');
     });
 
     // Badge Management
@@ -52,16 +43,16 @@ Route::middleware('auth')->group(function () {
         Route::delete('{badge}', [BadgeController::class, 'destroy'])->name('destroy');
     });
 
+    // Modules Management
     Route::prefix('modules')->name('modules.')->group(function () {
         Route::get('/', [\App\Http\Controllers\ModuleController::class, 'index'])->name('index');
         Route::get('{module}', [\App\Http\Controllers\ModuleController::class, 'show'])->name('show');
         Route::post('/', [\App\Http\Controllers\ModuleController::class, 'store'])->name('store');
         Route::delete('{module}', [\App\Http\Controllers\ModuleController::class, 'destroy'])->name('destroy');
-        Route::put('{modules}', [\App\Http\Controllers\ModuleController::class, 'update'])->name('update');
+        Route::put('{module}', [\App\Http\Controllers\ModuleController::class, 'update'])->name('update');
     });
 
-
-    //Lectures managment
+    // Lectures Management
     Route::controller(LectureController::class)->group(function () {
         Route::get('/lectures', 'index')->name('lectures.index');
         Route::get('/lectures/create', 'create')->name('lectures.create');
@@ -72,19 +63,16 @@ Route::middleware('auth')->group(function () {
         Route::delete('/lectures/{lecture}', 'destroy')->name('lectures.destroy');
     });
 
-
-    Route::controller(\App\Http\Controllers\MaterialController::class)->group(function () {
+    // Materials Management
+    Route::controller(MaterialController::class)->group(function () {
         Route::get('/materials', 'index')->name('materials.index');
         Route::get('/materials/create', 'create')->name('materials.create');
-        Route::post('/materials/create', 'store')->name('materials.store');
+        Route::post('/materials', 'store')->name('materials.store');
         Route::get('/materials/{material}', 'show')->name('materials.show');
         Route::get('/materials/{material}/edit', 'edit')->name('materials.edit');
         Route::put('/materials/{material}', 'update')->name('materials.update');
         Route::delete('/materials/{material}', 'destroy')->name('materials.destroy');
     });
-
-
-
 
     Route::controller(FunFactController::class)->group(function () {
         Route::get('/funFacts', 'index')->name('funFacts.index');
@@ -95,31 +83,26 @@ Route::middleware('auth')->group(function () {
         Route::put('/funFacts/{funFact}', 'update')->name('funFacts.update');
         Route::delete('/funFacts/{funFact}', 'destroy')->name('funFacts.destroy');
     });
-
-
 });
+
+
+Route::post('/upload/image', [ImageUploadController::class, 'uploadImage']);
+
+Route::get('/materials/editor/{id}', [MaterialController::class, 'editor'])->name('materials.editor');
+Route::put('/materials/{id}', [MaterialController::class, 'update'])->name('materials.update');
 
 
 Route::get('/manage', function () {
     return view('manage');
 })->name('manage');
+
 require __DIR__.'/auth.php';
 
-//topics
-Route::resource('/topics', TopicsController::class, ['exept' => ['create', 'edit', 'show']]);
+// Topics
+Route::resource('/topics', TopicsController::class, ['except' => ['create', 'edit', 'show']]);
 
-//courses
-Route::resource('/courses', CoursesController::class, ['exept' => ['create', 'edit', 'show']]);
+// Courses
+Route::resource('/courses', CoursesController::class, ['except' => ['create', 'edit', 'show']]);
 
-
-
-
-require __DIR__ . '/auth.php';
-
-
-
-    Route::get('/manage', function () {
-        return view('manage');
-    })->name('manage');
 
 

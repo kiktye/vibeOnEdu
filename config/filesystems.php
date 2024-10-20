@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'public'), // Use 'public' as the default disk
 
     /*
     |--------------------------------------------------------------------------
@@ -29,19 +29,16 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
-            'throw' => false,
+            'root' => storage_path('app'), // Use this path to save images in the app storage
         ],
 
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
-            'throw' => false,
         ],
 
         's3' => [
@@ -55,7 +52,6 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
-
     ],
 
     /*
