@@ -31,8 +31,38 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new UserResource($user->load('badges', 'courses', 'evaluations', 'topics', 'lectures.course', 'userInfo.city',  'certificates.course', 'role'));
+        $user->load([
+            'badges',
+            'courses',
+            'evaluations',
+            'topics',
+            'lectures.course',
+            'userInfo',
+            'certificates.course',
+            'role'
+        ]);
+
+        $lastAchievedBadge = $user->badges()->latest('created_at')->first();
+
+        $coursesInProgress = $user->courses()
+            ->whereNotNull('started_at')
+            ->whereNull('completed_at')
+            ->get();
+
+        $finishedCourses = $user->courses()
+            ->whereNotNull('started_at')
+            ->whereNotNull('completed_at')
+            ->get();
+
+        return (new UserResource($user))->additional([
+            'lastAchievedBadge' => $lastAchievedBadge,
+            'AllBadgesAchieved' => $user->badges,
+            'coursesInProgress' => $coursesInProgress,
+            'finishedCourses' => $finishedCourses
+        ]);
     }
+
+
 
     /**
      * Update the specified resource in storage.

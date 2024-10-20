@@ -17,9 +17,13 @@ class CourseResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'module' => $this->module->name,
             'name' => $this->name,
             'description' => $this->description,
+            'moduleName' => $this->module->name,
+            'lectures' => LectureResource::collection($this->lectures),
+            'evaluations' => EvaluationResource::collection($this->evaluations),
+            'certificates' => CertificateResource::collection($this->certificates)
+
         ];
     }
 }
