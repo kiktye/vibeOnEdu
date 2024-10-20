@@ -34,9 +34,11 @@ class UserController extends Controller
         $user->load([
             'badges',
             'courses',
+            'completedCourses',
+            'coursesInProgress',
             'evaluations',
             'topics',
-            'lectures.course',
+            'lectures',
             'userInfo',
             'certificates.course',
             'role'
@@ -44,21 +46,10 @@ class UserController extends Controller
 
         $lastAchievedBadge = $user->badges()->latest('created_at')->first();
 
-        $coursesInProgress = $user->courses()
-            ->whereNotNull('started_at')
-            ->whereNull('completed_at')
-            ->get();
-
-        $finishedCourses = $user->courses()
-            ->whereNotNull('started_at')
-            ->whereNotNull('completed_at')
-            ->get();
 
         return (new UserResource($user))->additional([
             'lastAchievedBadge' => $lastAchievedBadge,
             'AllBadgesAchieved' => $user->badges,
-            'coursesInProgress' => $coursesInProgress,
-            'finishedCourses' => $finishedCourses
         ]);
     }
 

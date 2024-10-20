@@ -31,7 +31,7 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        return new CourseResource($course->load('module', 'users', 'lectures', 'evaluations', 'certificates'));
+        return new CourseResource($course->load('module', 'users', 'lectures', 'finishedLectures', 'evaluations', 'certificates'));
     }
 
     /**

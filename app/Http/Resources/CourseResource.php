@@ -15,15 +15,17 @@ class CourseResource extends JsonResource
     public function toArray(Request $request): array
     {
         // return parent::toArray($request);
+
+
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'courseName' => $this->name,
             'description' => $this->description,
             'moduleName' => $this->module->name,
+            // 'finishedLectures' => $this->finishedLectures,
             'lectures' => LectureResource::collection($this->lectures),
-            'evaluations' => EvaluationResource::collection($this->evaluations),
-            'certificates' => CertificateResource::collection($this->certificates)
-
+            // 'evaluations' => EvaluationResource::collection($this->evaluations),
+            // 'certificates' => CertificateResource::collection($this->certificates)
         ];
     }
 }

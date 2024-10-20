@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CertificateResource;
-use App\Http\Resources\CertificateCollection;
+use App\Http\Resources\LectureResource;
+use App\Http\Resources\LectureCollection;
 use App\Models\Badge;
-use App\Models\Certificate;
+use App\Models\Lecture;
 use Illuminate\Http\Request;
 
 class LectureController extends Controller
@@ -16,7 +16,7 @@ class LectureController extends Controller
      */
     public function index()
     {
-        return new CertificateCollection(Certificate::all());
+        return new LectureCollection(Lecture::all());
     }
 
     /**
@@ -30,9 +30,9 @@ class LectureController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Certificate $certificate)
+    public function show(Lecture $lecture)
     {
-        return new CertificateResource($certificate);
+        return new LectureResource($lecture);
     }
 
     /**

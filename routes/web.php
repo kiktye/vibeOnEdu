@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\ProfileController;
@@ -63,8 +64,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/lectures/{lecture}', 'destroy')->name('lectures.destroy');
     });
 
-    
-    
+
+
     // Materials Management
     Route::controller(MaterialController::class)->group(function () {
         Route::get('/materials', 'index')->name('materials.index');
@@ -74,7 +75,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/materials/{material}', 'update')->name('materials.update');
         Route::delete('/materials/{material}', 'destroy')->name('materials.destroy');
     });
-    
+
     Route::controller(FunFactController::class)->group(function () {
         Route::get('/funFacts', 'index')->name('funFacts.index');
         Route::get('/funFacts/create', 'create')->name('funFacts.create');
@@ -110,13 +111,10 @@ Route::get('/manage', function () {
     return view('manage');
 })->name('manage');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // Topics
 Route::resource('/topics', TopicsController::class, ['except' => ['create', 'edit', 'show']]);
 
 // Courses
 Route::resource('/courses', CoursesController::class, ['except' => ['create', 'edit', 'show']]);
-
-
-

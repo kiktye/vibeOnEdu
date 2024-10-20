@@ -25,6 +25,7 @@ class Course extends Model
         return $this->hasMany(Lecture::class);
     }
 
+
     public function evaluations()
     {
         return $this->hasMany(UserEvaluation::class);

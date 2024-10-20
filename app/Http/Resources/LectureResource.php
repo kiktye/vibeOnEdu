@@ -15,13 +15,18 @@ class LectureResource extends JsonResource
     public function toArray(Request $request): array
     {
 
+        // return parent::toArray($request);
+
+        $decodedContent = json_decode($this->content, true);
+
         return [
             'id' => $this->id,
-            'course' => $this->course->name,
+            'courseName' => $this->course->name,
+            'lectureName' => $this->name,
             'description' => $this->description,
+            'content' => $decodedContent,
+            'audioPath' => $this->audio_path,
             'duration' => $this->duration,
-            'module' => $this->course->module->name,
-            'courseDescription' => $this->course->description
         ];
     }
 }
