@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\OptionController;
@@ -66,10 +67,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/lectures/{lecture}', 'destroy')->name('lectures.destroy');
     });
 
+
+
     // Materials Management
     Route::controller(MaterialController::class)->group(function () {
         Route::get('/materials', 'index')->name('materials.index');
-        Route::get('/materials/create', 'create')->name('materials.create');
         Route::post('/materials', 'store')->name('materials.store');
         Route::get('/materials/{material}', 'show')->name('materials.show');
         Route::get('/materials/{material}/edit', 'edit')->name('materials.edit');
@@ -132,17 +134,35 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::post('/upload/image', [ImageUploadController::class, 'uploadImage']);
+// Route to show the form for creating a new lecture
+Route::get('/createlecture', [LectureController::class, 'create'])->name('create.lecture');
 
-Route::get('/materials/editor/{id}', [MaterialController::class, 'editor'])->name('materials.editor');
-Route::put('/materials/{id}', [MaterialController::class, 'update'])->name('materials.update');
+// Route to handle the form submission for creating a new lecture
+Route::post('/createlecture', [LectureController::class, 'store'])->name('store.lecture');
+
+// Route to handle the edit for lecture
+Route::get('/editlecture/{lecture}', [LectureController::class, 'edit'])->name('edit.lecture');
+
+// Route to handle the update for lecture
+Route::put('/editlecture/{lecture}', [LectureController::class, 'update'])->name('update.lecture');
+
+// Route to handle image uploads
+Route::post('/upload/image', [ImageUploadController::class, 'uploadImage'])->name('upload.image');
+
+
+
 
 
 Route::get('/manage', function () {
     return view('manage');
 })->name('manage');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
 
+// Topics
+Route::resource('/topics', TopicsController::class, ['except' => ['create', 'edit', 'show']]);
+
+// Courses
+Route::resource('/courses', CoursesController::class, ['except' => ['create', 'edit', 'show']]);

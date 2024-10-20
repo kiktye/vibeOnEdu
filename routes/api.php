@@ -46,3 +46,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
 });
 
 Route::apiResource('quizzes', QuizController::class);
+Route::apiResource('modules', ModuleController::class);
+Route::apiResource('lectures', LectureController::class);
+Route::apiResource('evaluations', EvaluationController::class);
+Route::apiResource('badges', BadgeController::class);
+Route::apiResource('certificates', CertificateController::class);
+
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/{user}', [UserController::class, 'show']);
+
+Route::get('/courses', [CourseController::class, 'index']);
+Route::get('/courses/{course}', [CourseController::class, 'show']);

@@ -17,14 +17,14 @@ class Course extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_courses')
-            ->withTimestamps()->withPivot('started_at', 'completed_at');
+        return $this->belongsToMany(User::class, 'user_courses');
     }
 
     public function lectures()
     {
         return $this->hasMany(Lecture::class);
     }
+
 
     public function evaluations()
     {

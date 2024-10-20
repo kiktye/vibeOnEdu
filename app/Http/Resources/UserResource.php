@@ -14,20 +14,33 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        // return parent::toArray($request);
         return [
             'id' => $this->id,
             'name' => $this->name,
             'surname' => $this->surname,
             'email' => $this->email,
             'lastLoginAt' => $this->last_login_at,
-            'badges' => BadgeResource::collection($this->whenLoaded('badges')),
-            'courses' => CourseResource::collection($this->whenLoaded('courses')),
-            'evaluations' => EvaluationResource::collection($this->whenLoaded('evaluations')),
-            'topics' => TopicResource::collection($this->whenLoaded('topics')),
-            'lectures' => LectureResource::collection($this->whenLoaded('lectures')),
-            'userInfo' => new UserInfoResource($this->whenLoaded('userInfo')),
-            'certificates' => CertificateResource::collection($this->whenLoaded('certificates')),
-            'role' => new RoleResource($this->whenLoaded('role')),
+
+            // Safely check if additional data is set and provide default values if not
+            'lastAchievedBadge' => isset($this->additional['lastAchievedBadge'])
+                ? new BadgeResource($this->additional['lastAchievedBadge'])
+                : null,
+
+            'AllBadgesAchieved' => isset($this->additional['AllBadgesAchieved'])
+                ? BadgeCollection::make($this->additional['AllBadgesAchieved'])
+                : BadgeCollection::make([]),
+
+            'coursesInProgress' => $this->coursesInProgress,
+            'completedCourses' => $this->completedCourses,
+
+            // 'evaluations' => EvaluationResource::collection($this->whenLoaded('evaluations')),
+            // 'topics' => TopicResource::collection($this->whenLoaded('topics')),
+            // 'lectures' => LectureResource::collection($this->whenLoaded('lectures')),
+            // 'userInfo' => new UserInfoResource($this->whenLoaded('userInfo')),
+            // 'certificates' => CertificateResource::collection($this->whenLoaded('certificates')),
+            // 'role' => new RoleResource($this->whenLoaded('role')),
         ];
     }
 }
