@@ -35,28 +35,26 @@ class MaterialController extends Controller
     // Store a newly created material
     public function store(Request $request)
     {
-        // Dump the incomxing request data and stop execution
-        
-        // Log the incoming request data (optional after dump)
+
+        // Log the incoming request data
         Log::info('Incoming request data:', $request->all());
-        
+
         // Validate the request
         $request->validate([
             'content' => 'required',
             'lecture_id' => 'required|integer',
-            'type' => 'required|string|in:text,image,audio,blog'
+            'type' => 'required|string',
         ]);
-        
+
         // Store the material
         Material::create([
             'lecture_id' => $request->lecture_id,
             'type' => $request->type,
             'content' => json_encode($request->input('content')),
         ]);
-        
+
         return response()->json(['success' => true]);
     }
-    
 
     // Display the specified material
     public function show(Material $material)
