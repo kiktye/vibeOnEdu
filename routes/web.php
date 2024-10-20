@@ -93,6 +93,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/quizzes', \App\Http\Controllers\QuizController::class, ['except' => ['create', 'edit', 'show']]);
 
+    Route::resource('/questions', \App\Http\Controllers\QuestionController::class, ['except' => ['create', 'edit', 'show']]);
+
+
 
 });
 
